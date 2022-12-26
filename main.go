@@ -3,27 +3,46 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
-func hasNoArgs(args []string) error {
+func hasNoArgs() error {
 	if len(os.Args) == 1 {
-		return fmt.Errorf("error: %s", "Specify linux command to a first argument")
+		return fmt.Errorf("golang-linux-command: %s", "specify linux command to a first argument!")
 	}
 	return nil
 }
 
 func main() {
-	args := os.Args
-	if err := hasNoArgs(args); err != nil {
+	if err := hasNoArgs(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	switch args[1] {
+	switch os.Args[1] {
 	case "ls":
-		fmt.Println("test")
+		p, err := os.Getwd()
+		if err != nil {
+			fmt.Println(fmt.Errorf("golang-linux-command: %w", err))
+			os.Exit(1)
+		}
+
+		files, err := os.ReadDir(p)
+		if err != nil {
+			fmt.Println(fmt.Errorf("golang-linux-command: %w", err))
+			os.Exit(1)
+		}
+
+		for _, file := range files {
+			// skip hidden file
+			if strings.HasPrefix(file.Name(), ".") {
+				continue
+			}
+			fmt.Println(file.Name())
+		}
+
 	default:
-		fmt.Println("error: Command is not implemented.")
+		fmt.Println(fmt.Errorf("golang-linux-command: %s", "command is not implemented!"))
 		os.Exit(1)
 	}
 }
