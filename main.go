@@ -21,8 +21,7 @@ func main() {
 
 	switch args[1] {
 	case "ls":
-		fmt.Println("test
-		")
+		fmt.Println("test")
 	default:
 		fmt.Println("error: Command is not implemented.")
 		os.Exit(1)
