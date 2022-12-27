@@ -21,6 +21,8 @@ func main() {
 	switch os.Args[1] {
 	case "ls":
 		ls()
+	case "cat":
+		cat()
 	default:
 		fmt.Println(fmt.Errorf("golang-linux-command: %s", "command is not implemented!"))
 		os.Exit(1)
