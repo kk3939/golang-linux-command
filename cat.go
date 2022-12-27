@@ -5,22 +5,24 @@ import (
 	"os"
 )
 
-func cat() {
-	if len(os.Args) > 3 {
-		fmt.Println(fmt.Errorf("golang-linux-command: %s", "expected arguments are too much"))
-		os.Exit(1)
+func cat(c *CLI, args []string) int {
+	// When too much arguments
+	if len(args) > 3 {
+		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "expected arguments are too much!")
+		return ExitCodeOne
 	}
 
 	// When no argument
-	if len(os.Args) == 2 {
-		fmt.Println(fmt.Errorf("golang-linux-command: %s", "argument is required!"))
-		os.Exit(1)
+	if len(args) == 2 {
+		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "argument is required!")
+		return ExitCodeOne
 	}
 
-	file, err := os.ReadFile(os.Args[2])
+	file, err := os.ReadFile(args[2])
 	if err != nil {
-		fmt.Println(fmt.Errorf("golang-linux-command: %w", err))
-		os.Exit(1)
+		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", err)
+		return ExitCodeOne
 	}
-	fmt.Println(string(file))
+	fmt.Fprintf(c.outStream, "%s", string(file))
+	return ExitCodeZero
 }
