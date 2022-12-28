@@ -26,6 +26,8 @@ func (c *CLI) Run(args []string) int {
 		return ls(c, args)
 	case "cat":
 		return cat(c, args)
+	case "mkdir":
+		return mkdir(c, args)
 	default:
 		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "command is not implemented!")
 		return ExitCodeError
