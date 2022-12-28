@@ -6,22 +6,23 @@ import (
 	"testing"
 )
 
+func setup_test(a string) (*CLI, []string, *bytes.Buffer, *bytes.Buffer) {
+	outStream, errStream := new(bytes.Buffer), new(bytes.Buffer)
+	cli := &CLI{outStream: outStream, errStream: errStream}
+	args := strings.Split(a, " ")
+	return cli, args, outStream, errStream
+}
+
 func Test_cat(t *testing.T) {
 	t.Run("no_argument", func(t *testing.T) {
-		outStream, errStream := new(bytes.Buffer), new(bytes.Buffer)
-		cli := &CLI{outStream: outStream, errStream: errStream}
-		args := []string{"golang-linux-command", "cat"}
-
+		cli, args, _, _ := setup_test("golang-linux-command cat")
 		if s := cat(cli, args); s == ExitCodeOk {
 			t.Errorf("Exit code is %v", s)
 		}
 	})
 
 	t.Run("one_argument", func(t *testing.T) {
-		outStream, errStream := new(bytes.Buffer), new(bytes.Buffer)
-		cli := &CLI{outStream: outStream, errStream: errStream}
-		args := []string{"golang-linux-command", "cat", "README.md"}
-
+		cli, args, outStream, _ := setup_test("golang-linux-command cat README.md")
 		if s := cat(cli, args); s == ExitCodeError {
 			t.Errorf("Exit code is %v", s)
 		} else {
@@ -32,20 +33,14 @@ func Test_cat(t *testing.T) {
 	})
 
 	t.Run("argument_is_dir", func(t *testing.T) {
-		outStream, errStream := new(bytes.Buffer), new(bytes.Buffer)
-		cli := &CLI{outStream: outStream, errStream: errStream}
-		args := []string{"golang-linux-command", "cat", "testdata"}
-
+		cli, args, _, _ := setup_test("golang-linux-command cat testdata")
 		if s := cat(cli, args); s == ExitCodeOk {
 			t.Errorf("Exit code is %v", s)
 		}
 	})
 
 	t.Run("one more argument", func(t *testing.T) {
-		outStream, errStream := new(bytes.Buffer), new(bytes.Buffer)
-		cli := &CLI{outStream: outStream, errStream: errStream}
-		args := []string{"golang-linux-command", "cat", "testdata", "testdata"}
-
+		cli, args, _, _ := setup_test("golang-linux-command cat README.md testdata")
 		if s := cat(cli, args); s == ExitCodeOk {
 			t.Errorf("it is Expected that it would be failed. Exit code is %v. Too much arguments", s)
 		}
