@@ -12,7 +12,7 @@ func Test_ls(t *testing.T) {
 		cli := &CLI{outStream: outStream, errStream: errStream}
 		args := []string{"golang-linux-command", "ls"}
 
-		if s := ls(cli, args); s != ExitCodeZero {
+		if s := ls(cli, args); s != ExitCodeOk {
 			t.Errorf("Exit code is %v", s)
 		}
 	})
@@ -22,7 +22,7 @@ func Test_ls(t *testing.T) {
 		cli := &CLI{outStream: outStream, errStream: errStream}
 		args := []string{"golang-linux-command", "ls", "testdata"}
 
-		if s := ls(cli, args); s != ExitCodeZero {
+		if s := ls(cli, args); s != ExitCodeOk {
 			t.Errorf("Exit code is %v", s)
 		} else {
 			if !strings.Contains(outStream.String(), "test1.txt\ntest2.txt") {
@@ -36,7 +36,7 @@ func Test_ls(t *testing.T) {
 		cli := &CLI{outStream: outStream, errStream: errStream}
 		args := []string{"golang-linux-command", "ls", "README.md"}
 
-		if s := ls(cli, args); s == ExitCodeZero {
+		if s := ls(cli, args); s == ExitCodeOk {
 			t.Errorf("Exit code is %v", s)
 		}
 	})
@@ -46,7 +46,7 @@ func Test_ls(t *testing.T) {
 		cli := &CLI{outStream: outStream, errStream: errStream}
 		args := []string{"golang-linux-command", "ls", "testdata", "testdata"}
 
-		if s := ls(cli, args); s == ExitCodeZero {
+		if s := ls(cli, args); s == ExitCodeOk {
 			t.Errorf("it is Expected that it would be failed. Exit code is %v. Too much arguments", s)
 		}
 	})

@@ -9,7 +9,7 @@ import (
 func ls(c *CLI, args []string) int {
 	if len(args) > 3 {
 		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "expected arguments are too much!")
-		return ExitCodeOne
+		return ExitCodeError
 	}
 
 	var path string
@@ -22,7 +22,7 @@ func ls(c *CLI, args []string) int {
 		currentDir, err := os.Getwd()
 		if err != nil {
 			fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", err)
-			return ExitCodeOne
+			return ExitCodeError
 		}
 		path = currentDir
 	}
@@ -30,7 +30,7 @@ func ls(c *CLI, args []string) int {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", err)
-		return ExitCodeOne
+		return ExitCodeError
 	}
 
 	for _, file := range files {
@@ -40,5 +40,5 @@ func ls(c *CLI, args []string) int {
 		}
 		fmt.Fprintf(c.outStream, "%s\n", file.Name())
 	}
-	return ExitCodeZero
+	return ExitCodeOk
 }

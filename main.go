@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	ExitCodeZero = 0
-	ExitCodeOne  = 1
+	ExitCodeOk    = 0
+	ExitCodeError = 1
 )
 
 type CLI struct {
@@ -18,7 +18,7 @@ type CLI struct {
 func (c *CLI) Run(args []string) int {
 	if len(args) == 1 {
 		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "specify linux command to a first argument!")
-		return ExitCodeOne
+		return ExitCodeError
 	}
 
 	switch args[1] {
@@ -28,7 +28,7 @@ func (c *CLI) Run(args []string) int {
 		return cat(c, args)
 	default:
 		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "command is not implemented!")
-		return ExitCodeOne
+		return ExitCodeError
 	}
 }
 
