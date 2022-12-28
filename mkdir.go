@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/fs"
 	"os"
 )
@@ -23,24 +22,24 @@ func SetCreateDir(f func(name string, perm fs.FileMode) error) func() {
 
 func mkdir(c *CLI, args []string) int {
 	if len(args) > 3 {
-		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "expected arguments are too much!")
+		mArgsPrint(c)
 		return ExitCodeError
 	}
 
 	if len(args) == 2 {
-		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", "argument is required!")
+		rArgsPrint(c)
 		return ExitCodeError
 	}
 
 	currentDir, err := os.Getwd()
 	if err != nil {
-		fmt.Fprintf(c.errStream, "golang-linux-command: %s\n", err)
+		errPrint(c, err)
 		return ExitCodeError
 	}
 
 	fileInfo, err := os.Lstat(currentDir)
 	if err != nil {
-		fmt.Fprintf(c.outStream, "golang-linux-command: %s\n", err)
+		errPrint(c, err)
 	}
 
 	// How to specify permission of directory
