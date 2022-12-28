@@ -13,6 +13,7 @@ $ go run . ls
 I prepared the below command.(Exclude behavior given flag)
 - ls
 - cat
+- mkdir
 
 ## License
 MIT
